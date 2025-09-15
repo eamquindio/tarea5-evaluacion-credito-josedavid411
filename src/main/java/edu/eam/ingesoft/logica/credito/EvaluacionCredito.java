@@ -15,7 +15,7 @@ public class EvaluacionCredito {
     
     /**
      * Constructor de la clase EvaluacionCredito.
-     * 
+     *
      * @param nombreSolicitante Nombre completo del solicitante del crédito
      * @param ingresosMensuales Ingresos mensuales del solicitante en pesos
      * @param numeroCreditosActivos Cantidad de créditos activos que tiene el solicitante
@@ -41,19 +41,33 @@ public class EvaluacionCredito {
      * @return Tasa mensual en porcentaje
      */
     public double calcularTasaMensual(double tasaNominalAnual) {
-        return 0;
+
+        double tasaMensual = tasaNominalAnual / 12;
+        return tasaMensual;
+
     }
-    
+
+
+
+
+
     /**
      * Calcula la cuota mensual del crédito usando la fórmula de amortización francesa.
-     * Formula: Cuota = M * (im * (1+im)^n) / ((1+im)^n - 1)
+     * Fórmula: Cuota = M * (im * (1+im)^n) / ((1+im)^n - 1)
      * 
      * @param tasaNominalAnual Tasa nominal anual en porcentaje
      * @param plazoMeses Plazo del crédito en meses
      * @return Valor de la cuota mensual en pesos
      */
     public double calcularCuotaMensual(double tasaNominalAnual, int plazoMeses) {
-        return 0;
+double tasaMensual = 0.0;
+double cuota=0.0;
+if (tasaNominalAnual>0) {
+    tasaMensual= tasaNominalAnual/plazoMeses;
+    cuota = valorCreditoSolicitado*tasaMensual/(1-Math.pow(1+tasaMensual,-plazoMeses));}
+else { cuota= valorCreditoSolicitado/plazoMeses;
+}
+return cuota;
     }
     
     /**
@@ -68,8 +82,22 @@ public class EvaluacionCredito {
      */
     public boolean evaluarAprobacion(double tasaNominalAnual, int plazoMeses) {
 
-        
-        return false;
+        double cuota= calcularCuotaMensual (tasaNominalAnual, plazoMeses);
+        double ratio = cuota/ ingresosMensuales;
+
+        if (puntajeCredito >700 && numeroCreditosActivos<2) {
+    return ratio <=0.30;}
+
+        if (puntajeCredito>=500 && puntajeCredito<=700)
+            if(tieneCodedor){ return ratio<=0.25; }
+            else { return false;}
+
+            if (puntajeCredito<500) {
+                return false;
+            }
+
+
+            return false;
     }
     
     /**
